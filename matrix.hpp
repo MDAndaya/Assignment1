@@ -11,7 +11,7 @@ class Matrix {
 private:
     int col;
     int row;
-    int** value;
+    int** values;
 
     void allocArray();
 public:
@@ -19,7 +19,10 @@ public:
     Matrix();
     Matrix(int n);
     Matrix(int col, int row);
-    void setVal(int col, int row);
+    Matrix(double darray[]);
+    void setValue(int col, int row, double value);
+    double getValue(int col, int row);
+    void clear();
     ~Matrix();
 
 
