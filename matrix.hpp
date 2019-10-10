@@ -2,28 +2,49 @@
 // Created by MDand on 2019-10-04.
 //
 
+#include <vector>
+#include <ostream>
+
 #ifndef ASSIGNMENT1_MATRIX_HPP
 #define ASSIGNMENT1_MATRIX_HPP
 
 #endif //ASSIGNMENT1_MATRIX_HPP
 
-class Matrix {
+using namespace std;
+
+class matrix {
 private:
-    int col;
-    int row;
-    int** values;
+    vector<vector<double>> values;
 
-    void allocArray();
 public:
+    matrix();
+    matrix(int n);
+    matrix(int r, int c);
+    matrix(vector<double> vector);
 
-    Matrix();
-    Matrix(int n);
-    Matrix(int col, int row);
-    Matrix(double darray[]);
-    void setValue(int col, int row, double value);
-    double getValue(int col, int row);
+    void set_value(int r, int c, double value);
+    double get_value(int r, int c);
     void clear();
-    ~Matrix();
+    ~matrix();
+
+    friend ostream& operator<<(ostream& os, matrix& m);
+
+    bool operator==(const matrix& other);
+    bool operator!=(const matrix& other);
+
+    matrix& operator++();
+    matrix operator++(int);
+    matrix& operator--();
+    matrix operator--(int);
+
+    matrix& operator=(matrix other);
+    friend void swap(matrix& first, matrix& second);
+
+    matrix operator*(matrix& other);
+    matrix& operator*=(matrix& other);
+
+
+
 
 
 };
