@@ -4,10 +4,19 @@
 using namespace std;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    cout << "Hello, World!" << std::endl;
 
-    matrix m(5);
+    matrix m(3, 4);
+    matrix m2(4, 2);
 
-    cout << m;
+    m++;m++;m2++;
+
+    cout << m << endl;
+    cout << m2 << endl;
+
+    m*=m2;
+
+    cout << "multiply" << endl;
+    cout << m << endl;
     return 0;
 }

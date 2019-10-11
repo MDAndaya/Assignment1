@@ -47,14 +47,108 @@ void matrix::clear() {
 }
 
 matrix::~matrix() {
-    cout << "matrix destructed" << endl;
+    cout  << "matrix destructed" << endl;
 }
 
-ostream& operator<<(ostream& os, matrix& m) {
+ostream& operator<<(ostream& os, const matrix& m) {
     for (int i = 0; i < m.values.size(); i++) {
         for (int j = 0; j < m.values[i].size(); j++)
             os << m.values[i][j] << "  ";
-        cout << endl;
+        os << endl;
     }
+    return os;
 }
 
+bool matrix::operator==(const matrix& other) const {
+    if (values.size() != other.values.size())
+        return false;
+    for (int i = 0; i < values.size(); i++) {
+        if (values[i].size() != other.values.size())
+            return false;
+        for (int j = 0; j < values[i].size(); j++)
+            if (values[i][j] != other.values[i][j])
+                return false;
+    }
+    return true;
+}
+
+bool matrix::operator!=(const matrix& other) const {
+    if (values.size() != other.values.size())
+        return true;
+    for (int i = 0; i < values.size(); i++) {
+        if (values[i].size() != other.values.size())
+            return true;
+        for (int j = 0; j < values[i].size(); j++)
+            if (values[i][j] != other.values[i][j])
+                return true;
+    }
+    return false;
+}
+
+matrix& matrix::operator++() {
+    for (int i = 0; i < values.size(); i++)
+        for (int j = 0; j < values[i].size(); j++)
+            values[i][j]++;
+    return *this;
+}
+
+matrix matrix::operator++(int) {
+    matrix temp = *this;
+    ++*this;
+    return temp;
+}
+
+matrix& matrix::operator--() {
+    for (int i = 0; i < values.size(); i++)
+        for (int j = 0; j < values[i].size(); j++)
+            values[i][j]--;
+    return *this;
+}
+
+matrix matrix::operator--(int) {
+    matrix temp = *this;
+    --*this;
+    return temp;
+}
+
+void swap(matrix& first, matrix& second) { // nothrow
+    // enable ADL (not necessary in our case, but good practice)
+    using std::swap;
+
+    // by swapping the members of two objects,
+    // the two objects are effectively swapped
+    for (int i = 0; i < first.values.size(); i++)
+        for (int j = 0; j < first.values[i].size(); j++)
+            swap(first.values[i][j], second.values[i][j]);
+}
+
+matrix& matrix::operator=(const matrix& other) {
+    matrix temp(other);
+    swap(*this, temp);
+    return *this;
+}
+
+matrix matrix::operator*(matrix& other) {
+    if (values[0].size() != other.values.size())
+        throw "matrices are not equal col to row, or vice versa";
+
+    matrix c(values.size(), other.values[0].size());
+    for(int i=0; i < values.size(); ++i)
+        for(int j=0; j < other.values[0].size(); ++j)
+            for(int k=0; k < values[0].size(); ++k)
+                c.values[i][j] += values[i][k] * other.values[k][j];
+    return c;
+}
+
+matrix& matrix::operator*=(matrix& other) {
+    if (values[0].size() != other.values.size())
+        throw "matrices are not equal col to row, or vice versa";
+
+    matrix c(values.size(), other.values[0].size());
+    for(int i=0; i < values.size(); ++i)
+        for(int j=0; j < other.values[0].size(); ++j)
+            for(int k=0; k < values[0].size(); ++k)
+                c.values[i][j] += values[i][k] * other.values[k][j];
+    *this = c;
+    return *this;
+}

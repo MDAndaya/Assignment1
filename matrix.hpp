@@ -27,18 +27,18 @@ public:
     void clear();
     ~matrix();
 
-    friend ostream& operator<<(ostream& os, matrix& m);
+    friend ostream& operator<<(ostream& os, const matrix& m);
 
-    bool operator==(const matrix& other);
-    bool operator!=(const matrix& other);
+    bool operator==(const matrix& other) const;
+    bool operator!=(const matrix& other) const;
 
     matrix& operator++();
     matrix operator++(int);
     matrix& operator--();
     matrix operator--(int);
 
-    matrix& operator=(matrix other);
     friend void swap(matrix& first, matrix& second);
+    matrix& operator=(const matrix& other);
 
     matrix operator*(matrix& other);
     matrix& operator*=(matrix& other);
