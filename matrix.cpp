@@ -128,7 +128,7 @@ matrix& matrix::operator=(const matrix& other) {
     return *this;
 }
 
-matrix matrix::operator*(matrix& other) {
+matrix matrix::operator*(const matrix& other) {
     if (values[0].size() != other.values.size())
         throw "matrices are not equal col to row, or vice versa";
 
@@ -140,15 +140,12 @@ matrix matrix::operator*(matrix& other) {
     return c;
 }
 
-matrix& matrix::operator*=(matrix& other) {
-    if (values[0].size() != other.values.size())
-        throw "matrices are not equal col to row, or vice versa";
+matrix& matrix::operator*=(const matrix& other) {
 
-    matrix c(values.size(), other.values[0].size());
+    matrix c = *this * other;
+
     for(int i=0; i < values.size(); ++i)
-        for(int j=0; j < other.values[0].size(); ++j)
-            for(int k=0; k < values[0].size(); ++k)
-                c.values[i][j] += values[i][k] * other.values[k][j];
+        values[i].resize(other.values[0].size());
     *this = c;
     return *this;
 }

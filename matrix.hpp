@@ -40,11 +40,6 @@ public:
     friend void swap(matrix& first, matrix& second);
     matrix& operator=(const matrix& other);
 
-    matrix operator*(matrix& other);
-    matrix& operator*=(matrix& other);
-
-
-
-
-
+    matrix operator*(const matrix& other);
+    matrix& operator*=(const matrix& other);
 };
