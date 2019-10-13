@@ -95,7 +95,7 @@ bool operator==(const matrix& left, const matrix& right){
     } else {
         for(int i = 0; i < left.row; i++)
             for (int j = 0; j < left.col; j++)
-                if((left.get_value(i, j) - right.get_value(i, j)) > TOLERANCE)
+                if(abs(left.get_value(i, j) - right.get_value(i, j)) > TOLERANCE)
                     return false;
     }
     return true;
