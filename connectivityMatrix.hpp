@@ -15,7 +15,7 @@ public:
     connectivitymatrix();
     connectivitymatrix(int n);
     connectivitymatrix(double a[], int n);
-    connectivitymatrix(const connectivitymatrix&m);
+    connectivitymatrix(const connectivitymatrix& m);
     virtual ~connectivitymatrix();
     friend std::ostream & operator << (std::ostream &os, const connectivitymatrix &m);
 
