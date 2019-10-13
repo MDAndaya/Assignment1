@@ -1,12 +1,15 @@
 #include <iostream>
-#include "matrix.hpp"
 #include "pagerank.hpp"
 
 using namespace std;
 
 int main() {
-    cout << "Assignment 1" << endl;
+
+    cout << "Assignment 1 Start";
+
     pagerank p;
-    p.printResults();
+    p.print_results();
+
+    cout << "\nAssignment 1 End" << endl;
     return 0;
 }

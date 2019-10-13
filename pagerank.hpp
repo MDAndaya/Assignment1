@@ -5,7 +5,6 @@
 #ifndef ASSIGNMENT1_PAGERANK_HPP
 #define ASSIGNMENT1_PAGERANK_HPP
 
-
 #include "connectivitymatrix.hpp"
 
 class pagerank {
@@ -17,16 +16,16 @@ public:
     pagerank();
     virtual ~pagerank();
 
-    void printResults();
-    connectivitymatrix generateG();
-    matrix generateS(const matrix &g);
-    matrix generateSBlank(const matrix &g);
-    matrix generateQ();
-    matrix generateM(const matrix &s, const matrix &q);
-    matrix generateRank(const matrix &m);
+    void print_results();
+    connectivitymatrix generate_g();
+    matrix generate_s(const matrix &g);
+    matrix generate_sblank(const matrix &g);
+    matrix generate_q();
+    matrix generate_m(const matrix &s, const matrix &q);
+    matrix generate_rank(const matrix &m);
 
-    matrix multiplyRank(const matrix &rank, const matrix &m);
-    matrix divideRank(const matrix &m);
+    matrix multiply_rank(const matrix &rank, const matrix &m);
+    matrix divide_rank(const matrix &m);
 };
 
 

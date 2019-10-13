@@ -47,5 +47,4 @@ public:
     matrix& operator*=(const matrix& right);
 };
 
-
 #endif //ASSIGNMENT1_MATRIX_HPP

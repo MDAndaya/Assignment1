@@ -38,28 +38,28 @@ pagerank::~pagerank() {
 
 }
 
-void pagerank::printResults(){
-    connectivitymatrix g = generateG();
+void pagerank::print_results(){
+    connectivitymatrix g = generate_g();
     cout << "\n" << endl;
     cout << "Connectivity Matrix:\n" << g << endl;
-    matrix s = generateS(g);
-    matrix s2 = generateSBlank(s);
-    matrix q = generateQ();
-    matrix m = generateM(s2, q);
-    matrix rank = generateRank(s2);
-    matrix result = multiplyRank(rank, m);
-    matrix ranked = divideRank(result);
+    matrix s = generate_s(g);
+    matrix s2 = generate_sblank(s);
+    matrix q = generate_q();
+    matrix m = generate_m(s2, q);
+    matrix rank = generate_rank(s2);
+    matrix result = multiply_rank(rank, m);
+    matrix ranked = divide_rank(result);
     char page ='A';
     for (int i = 0; i < ranked.get_row(); i++)
         cout << fixed << setprecision(2) << "Page " << (char)(page++) << ": " << ranked.get_value(i, 0) << "%" << endl;
 }
 
-connectivitymatrix pagerank::generateG() {
+connectivitymatrix pagerank::generate_g() {
     connectivitymatrix g(connectivityArray, webpages);
     return g;
 }
 
-matrix pagerank::generateS(const matrix &g) {
+matrix pagerank::generate_s(const matrix &g) {
     int sumval = 0;
     matrix s(connectivityArray, webpages);
     s = g;
@@ -75,7 +75,7 @@ matrix pagerank::generateS(const matrix &g) {
     return s;
 }
 
-matrix pagerank::generateSBlank(const matrix &g) {
+matrix pagerank::generate_sblank(const matrix &g) {
     matrix s(connectivityArray, webpages);
     s = g;
     for (int i = 0; i < s.get_col(); i++) {
@@ -91,7 +91,7 @@ matrix pagerank::generateSBlank(const matrix &g) {
     return s;
 }
 
-matrix pagerank::generateQ() {
+matrix pagerank::generate_q() {
     matrix q(connectivityArray, webpages);
     for (int i = 0; i < q.get_col(); i++)
         for (int j = 0; j < q.get_row(); j++)
@@ -100,7 +100,7 @@ matrix pagerank::generateQ() {
 
 }
 
-matrix pagerank::generateM(const matrix &s, const matrix &q) {
+matrix pagerank::generate_m(const matrix &s, const matrix &q) {
     matrix m1;
     m1 = s;
     for (int i = 0; i < m1.get_col(); i++)
@@ -117,21 +117,21 @@ matrix pagerank::generateM(const matrix &s, const matrix &q) {
     return m;
 }
 
-matrix pagerank::generateRank(const matrix &m) {
+matrix pagerank::generate_rank(const matrix &m) {
     matrix rank(m.get_row(), 1);
     for (int i = 0; i < m.get_row(); i++)
         rank.set_value(i, 0, 1.0);
     return rank;
 }
 
-matrix pagerank::multiplyRank(const matrix &rank, const matrix &m) {
+matrix pagerank::multiply_rank(const matrix &rank, const matrix &m) {
     matrix result = m*rank;
     if((m*rank)!=rank)
-        result = multiplyRank(result, m);
+        result = multiply_rank(result, m);
     return result;
 }
 
-matrix pagerank::divideRank(const matrix &m) {
+matrix pagerank::divide_rank(const matrix &m) {
     double sum = 0;
     for (int i = 0; i < m.get_row(); i++)
         sum += m.get_value(i, 0);
