@@ -1,151 +1,202 @@
+//
+// Created by MDand on 2019-7-11.
+//
 
 #include <iostream>
+#include <iomanip>
 #include <cmath>
+
 #include "matrix.hpp"
 
-matrix::matrix(): matrix(1, 1) {}
+using namespace std;
 
-matrix::matrix(int n): matrix(n, n) {}
+
+matrix::matrix():matrix(1) {}
+
+matrix::matrix(int n): matrix(n,n) {}
 
 matrix::matrix(int r, int c) {
-    values.resize(r);
-    for (int i = 0; i < r; i++) {
-        values[i].resize(c);
-        for (int j = 0; j < c; j++)
-            values[i][j] = 0;
+    row = r;
+    col = c;
+    values = new double*[row];
+    for(int i = 0; i < row; i++)
+        values[i] = new double[col];
+
+    for(int j = 0; j < row; j++)
+        for(int k = 0; k < col; k++)
+            values[j][k] = 0.0;
+}
+
+matrix::matrix(double a[], int n) {
+    row = sqrt(n);
+    col = row;
+    values = new double*[row];
+    for(int i = 0; i < row; i++) {
+        values[i] = new double[col];
     }
+    int j = 0;
+    for(int k = 0; k < row; k++)
+        for (int l = 0; l < col; l++)
+            values[k][l] = a[j++];
 }
 
-bool isPerfectSquare(long double x) {
-    long double sr = sqrt(x);
-    return ((sr - floor(sr)) == 0);
+matrix::matrix(const matrix &m) {
+    row=m.row;
+    col=m.col;
+    values = new double*[row];
+    for(int i = 0; i < row; i++)
+        values[i] = new double[col];
+
+    for(int j = 0; j < row; j++)
+        for(int k = 0; k < col; k++)
+            values[j][k] = m.values[j][k];
 }
 
-matrix::matrix(vector<double> vector): matrix(sqrt(vector.size())) {
-    if (!isPerfectSquare(vector.size()))
-        throw "Given vector size is not a perfect square";
-
-    int matsize = sqrt(vector.size());
-    int pointer = 0;
-    for (int i = 0; i < matsize; i++)
-        for (int j = 0; j < matsize; j++)
-            values[i][j] = vector[pointer++];
+int matrix::get_row() const {
+    return row;
 }
 
-void matrix::set_value(int r, int c, double value) {
-    values[r][c] = value;
+int matrix::get_col() const {
+    return col;
 }
 
-double matrix::get_value(int r, int c) {
+void matrix::set_value(int r, int c, double d) {
+    values[r][c] = d;
+}
+
+double matrix::get_value(int r, int c) const {
     return values[r][c];
 }
 
 void matrix::clear() {
-    for (int i = 0; i < values.size(); i++)
-        for (int j = 0; j < values[i].size(); j++)
-            values[i][j] = 0;
+    for(int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+            values[i][j] = 0.0;
 }
 
 matrix::~matrix() {
-    cout  << "matrix destructed" << endl;
+   for(int i = 0; i < row; i++)
+           delete[] values[i];
+    delete[] values;
 }
 
-ostream& operator<<(ostream& os, const matrix& m) {
-    for (int i = 0; i < m.values.size(); i++) {
-        for (int j = 0; j < m.values[i].size(); j++)
-            os << m.values[i][j] << "  ";
-        os << endl;
+std::ostream & operator << (std::ostream &os, const matrix &m){
+    for (int i = 0; i < m.row; ++i) {
+        for (int j = 0; j < m.col; ++j)
+            os << fixed << setprecision(2) << m.get_value(i, j) << "  ";
+        os << "\n";
     }
     return os;
 }
 
-bool matrix::operator==(const matrix& other) const {
-    if (values.size() != other.values.size())
+bool operator==(const matrix& left, const matrix& right){
+    if (left.row != right.row && left.col != right.col){
         return false;
-    for (int i = 0; i < values.size(); i++) {
-        if (values[i].size() != other.values.size())
-            return false;
-        for (int j = 0; j < values[i].size(); j++)
-            if (values[i][j] != other.values[i][j])
-                return false;
+    } else {
+        for(int i = 0; i < left.row; i++)
+            for (int j = 0; j < left.col; j++)
+                if((left.get_value(i, j) - right.get_value(i, j)) > TOLERANCE)
+                    return false;
     }
     return true;
 }
 
-bool matrix::operator!=(const matrix& other) const {
-    if (values.size() != other.values.size())
-        return true;
-    for (int i = 0; i < values.size(); i++) {
-        if (values[i].size() != other.values.size())
-            return true;
-        for (int j = 0; j < values[i].size(); j++)
-            if (values[i][j] != other.values[i][j])
-                return true;
-    }
-    return false;
+bool operator!=(const matrix& left, const matrix& right){
+    return !operator==(left, right);
 }
 
-matrix& matrix::operator++() {
-    for (int i = 0; i < values.size(); i++)
-        for (int j = 0; j < values[i].size(); j++)
-            values[i][j]++;
+matrix &matrix::operator++() {
+    for(int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+            set_value(i, j, (get_value(i, j) + 1));
+    return *this;
+}
+
+matrix &matrix::operator--() {
+    for(int i = 0; i < row; i++)
+        for (int j = 0; j < col; j++)
+            set_value(i, j, (get_value(i, j) - 1));
     return *this;
 }
 
 matrix matrix::operator++(int) {
     matrix temp = *this;
-    ++*this;
+    ++(*this);
     return temp;
-}
-
-matrix& matrix::operator--() {
-    for (int i = 0; i < values.size(); i++)
-        for (int j = 0; j < values[i].size(); j++)
-            values[i][j]--;
-    return *this;
 }
 
 matrix matrix::operator--(int) {
     matrix temp = *this;
-    --*this;
+    --(*this);
     return temp;
 }
 
-void swap(matrix& first, matrix& second) { // nothrow
-    // enable ADL (not necessary in our case, but good practice)
+matrix &matrix::operator=(matrix other) {
+    matrixswap(*this, other);
+    return *this;
+}
+
+void matrix::matrixswap(matrix& first, matrix& second) {
     using std::swap;
-
-    // by swapping the members of two objects,
-    // the two objects are effectively swapped
-    for (int i = 0; i < first.values.size(); i++)
-        for (int j = 0; j < first.values[i].size(); j++)
-            swap(first.values[i][j], second.values[i][j]);
+    swap(first.values, second.values);
+    swap(first.row, second.row);
+    swap(first.col, second.col);
 }
 
-matrix& matrix::operator=(const matrix& other) {
-    matrix temp(other);
-    swap(*this, temp);
+matrix &matrix::operator+=(const matrix &right) {
+    for(int i = 0; i < right.row; ++i)
+        for (int j = 0; j < right.row; ++j)
+            values[i][j] = values[i][j] + right.values[i][j];
     return *this;
 }
 
-matrix matrix::operator*(const matrix& other) {
-    if (values[0].size() != other.values.size())
-        throw "matrices are not equal col to row, or vice versa";
-
-    matrix c(values.size(), other.values[0].size());
-    for(int i=0; i < values.size(); ++i)
-        for(int j=0; j < other.values[0].size(); ++j)
-            for(int k=0; k < values[0].size(); ++k)
-                c.values[i][j] += values[i][k] * other.values[k][j];
-    return c;
+matrix operator+(matrix left, const matrix& right) {
+    matrix m(left.row, left.row);
+    for(int i = 0; i < left.row; ++i)
+        for (int j = 0; j < left.row; ++j)
+            m.values[i][j] = left.values[i][j] + right.values[i][j];
+    return m;
 }
 
-matrix& matrix::operator*=(const matrix& other) {
-
-    matrix c = *this * other;
-
-    for(int i=0; i < values.size(); ++i)
-        values[i].resize(other.values[0].size());
-    *this = c;
+matrix &matrix::operator-=(const matrix &right) {
+    for(int i = 0; i < right.row; ++i) {
+        for (int j = 0; j < right.row; ++j) {
+            values[i][j] = values[i][j] - right.values[i][j];
+        }
+    }
     return *this;
+}
+
+matrix operator-(matrix left, const matrix& right) {
+    matrix m(left.row, left.row);
+    for(int i = 0; i < left.row; ++i)
+        for (int j = 0; j < left.row; ++j)
+            m.values[i][j] = left.values[i][j] - right.values[i][j];
+    return m;
+}
+
+matrix &matrix::operator*=(const matrix &right) {
+    matrix m(row, right.col);
+
+    for(int j = 0; j < m.row; ++j) {
+        for (int k = 0; k < right.col; ++k) {
+            for (int l = 0; l < m.col; ++l) {
+                m.values[j][k] += values[j][l] * right.values[l][k];
+            }
+        }
+    }
+    *this = m;
+    return *this;
+}
+
+matrix operator*(matrix lhs, const matrix& rhs) {
+    matrix m(lhs.row, rhs.col);
+    for(int i = 0; i < lhs.row; ++i) {
+        for (int j = 0; j < rhs.col; ++j) {
+            for (int k = 0; k < lhs.col; ++k) {
+                m.values[i][j] += lhs.values[i][k] * rhs.values[k][j];
+            }
+        }
+    }
+    return m;
 }

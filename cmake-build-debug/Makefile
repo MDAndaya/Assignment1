@@ -123,6 +123,33 @@ Assignment1/fast:
 	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/build
 .PHONY : Assignment1/fast
 
+connectivitymatrix.o: connectivitymatrix.cpp.o
+
+.PHONY : connectivitymatrix.o
+
+# target to build an object file
+connectivitymatrix.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/connectivitymatrix.cpp.o
+.PHONY : connectivitymatrix.cpp.o
+
+connectivitymatrix.i: connectivitymatrix.cpp.i
+
+.PHONY : connectivitymatrix.i
+
+# target to preprocess a source file
+connectivitymatrix.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/connectivitymatrix.cpp.i
+.PHONY : connectivitymatrix.cpp.i
+
+connectivitymatrix.s: connectivitymatrix.cpp.s
+
+.PHONY : connectivitymatrix.s
+
+# target to generate assembly for a file
+connectivitymatrix.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/connectivitymatrix.cpp.s
+.PHONY : connectivitymatrix.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -177,6 +204,33 @@ matrix.cpp.s:
 	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/matrix.cpp.s
 .PHONY : matrix.cpp.s
 
+pagerank.o: pagerank.cpp.o
+
+.PHONY : pagerank.o
+
+# target to build an object file
+pagerank.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/pagerank.cpp.o
+.PHONY : pagerank.cpp.o
+
+pagerank.i: pagerank.cpp.i
+
+.PHONY : pagerank.i
+
+# target to preprocess a source file
+pagerank.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/pagerank.cpp.i
+.PHONY : pagerank.cpp.i
+
+pagerank.s: pagerank.cpp.s
+
+.PHONY : pagerank.s
+
+# target to generate assembly for a file
+pagerank.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/pagerank.cpp.s
+.PHONY : pagerank.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +240,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Assignment1"
 	@echo "... edit_cache"
+	@echo "... connectivitymatrix.o"
+	@echo "... connectivitymatrix.i"
+	@echo "... connectivitymatrix.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... matrix.o"
 	@echo "... matrix.i"
 	@echo "... matrix.s"
+	@echo "... pagerank.o"
+	@echo "... pagerank.i"
+	@echo "... pagerank.s"
 .PHONY : help
 
 

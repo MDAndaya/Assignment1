@@ -1,45 +1,51 @@
 //
-// Created by MDand on 2019-10-04.
+// Created by MDand on 2019-7-11.
 //
-
-#include <vector>
-#include <ostream>
 
 #ifndef ASSIGNMENT1_MATRIX_HPP
 #define ASSIGNMENT1_MATRIX_HPP
 
-#endif //ASSIGNMENT1_MATRIX_HPP
+#include <iostream>
 
-using namespace std;
+constexpr double TOLERANCE = 0.00001;
 
 class matrix {
-private:
-    vector<vector<double>> values;
+
+protected:
+    double **values;
+    int row;
+    int col;
 
 public:
     matrix();
     matrix(int n);
     matrix(int r, int c);
-    matrix(vector<double> vector);
-
-    void set_value(int r, int c, double value);
-    double get_value(int r, int c);
+    matrix(double a[], int n);
+    int get_row() const;
+    int get_col() const;
+    void set_value(int r, int c, double d);
+    double get_value(int r, int c) const;
     void clear();
-    ~matrix();
+    matrix(const matrix&);
+    virtual ~matrix();
 
-    friend ostream& operator<<(ostream& os, const matrix& m);
-
-    bool operator==(const matrix& other) const;
-    bool operator!=(const matrix& other) const;
-
+    friend std::ostream & operator << (std::ostream &out, const matrix &m);
+    friend bool operator==(const matrix& lhs, const matrix& rhs);
+    friend bool operator!=(const matrix& lhs, const matrix& rhs);
     matrix& operator++();
-    matrix operator++(int);
     matrix& operator--();
+    matrix operator++(int);
     matrix operator--(int);
 
-    friend void swap(matrix& first, matrix& second);
-    matrix& operator=(const matrix& other);
-
-    matrix operator*(const matrix& other);
-    matrix& operator*=(const matrix& other);
+    matrix& operator=(matrix other);
+    void matrixswap(matrix& first, matrix& second);
+    matrix& operator+=(const matrix& right);
+    friend matrix operator+(matrix lhs, const matrix& rhs);
+    matrix& operator-=(const matrix& right);
+    friend matrix operator-(matrix lhs, const matrix& rhs);
+    friend matrix operator*(matrix lhs, const matrix& rhs);
+    matrix& operator*=(const matrix& right);
 };
+
+
+#endif //ASSIGNMENT1_MATRIX_HPP
