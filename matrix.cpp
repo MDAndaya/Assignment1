@@ -90,7 +90,7 @@ std::ostream & operator << (std::ostream &os, const matrix &m){
 }
 
 bool operator==(const matrix& left, const matrix& right){
-    if (left.row != right.row && left.col != right.col){
+    if (left.row != right.row || left.col != right.col){
         return false;
     } else {
         for(int i = 0; i < left.row; i++)
