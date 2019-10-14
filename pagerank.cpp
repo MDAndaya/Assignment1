@@ -40,8 +40,7 @@ pagerank::~pagerank() {
 
 void pagerank::print_results(){
     connectivitymatrix g = generate_g();
-    cout << "\n" << endl;
-    cout << "Connectivity Matrix:\n" << g << endl;
+    cout << g << endl;
     matrix s = generate_s(g);
     matrix s2 = generate_sblank(s);
     matrix q = generate_q();
@@ -51,7 +50,7 @@ void pagerank::print_results(){
     matrix ranked = divide_rank(result);
     char page ='A';
     for (int i = 0; i < ranked.get_row(); i++)
-        cout << fixed << setprecision(2) << "Page " << (char)(page++) << ": " << ranked.get_value(i, 0) << "%" << endl;
+        cout << fixed << setprecision(2) << "page " << (char)(page++) << ": " << ranked.get_value(i, 0) << "%" << endl;
 }
 
 connectivitymatrix pagerank::generate_g() {
@@ -60,7 +59,7 @@ connectivitymatrix pagerank::generate_g() {
 }
 
 matrix pagerank::generate_s(const matrix &g) {
-    int sumval = 0;
+    double sumval = 0;
     matrix s(connectivityArray, webpages);
     s = g;
     for (int i = 0; i < s.get_col(); i++) {

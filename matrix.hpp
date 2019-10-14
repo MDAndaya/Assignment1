@@ -30,8 +30,8 @@ public:
     virtual ~matrix();
 
     friend std::ostream & operator << (std::ostream &out, const matrix &m);
-    friend bool operator==(const matrix& lhs, const matrix& rhs);
-    friend bool operator!=(const matrix& lhs, const matrix& rhs);
+    friend bool operator==(const matrix& left, const matrix& right);
+    friend bool operator!=(const matrix& left, const matrix& right);
     matrix& operator++();
     matrix& operator--();
     matrix operator++(int);
@@ -40,10 +40,10 @@ public:
     matrix& operator=(matrix other);
     void matrixswap(matrix& first, matrix& second);
     matrix& operator+=(const matrix& right);
-    friend matrix operator+(matrix lhs, const matrix& rhs);
+    friend matrix operator+(matrix left, const matrix& right);
     matrix& operator-=(const matrix& right);
-    friend matrix operator-(matrix lhs, const matrix& rhs);
-    friend matrix operator*(matrix lhs, const matrix& rhs);
+    friend matrix operator-(matrix left, const matrix& right);
+    friend matrix operator*(matrix left, const matrix& right);
     matrix& operator*=(const matrix& right);
 };
 

@@ -84,7 +84,7 @@ std::ostream & operator << (std::ostream &os, const matrix &m){
     for (int i = 0; i < m.row; ++i) {
         for (int j = 0; j < m.col; ++j)
             os << fixed << setprecision(2) << m.get_value(i, j) << "  ";
-        os << "\n";
+        os << endl;
     }
     return os;
 }
@@ -160,7 +160,7 @@ matrix operator+(matrix left, const matrix& right) {
 
 matrix &matrix::operator-=(const matrix &right) {
     for(int i = 0; i < right.row; ++i) {
-        for (int j = 0; j < right.row; ++j) {
+        for (int j = 0; j < right.col; ++j) {
             values[i][j] = values[i][j] - right.values[i][j];
         }
     }
@@ -178,10 +178,10 @@ matrix operator-(matrix left, const matrix& right) {
 matrix &matrix::operator*=(const matrix &right) {
     matrix m(row, right.col);
 
-    for(int j = 0; j < m.row; ++j) {
-        for (int k = 0; k < right.col; ++k) {
-            for (int l = 0; l < m.col; ++l) {
-                m.values[j][k] += values[j][l] * right.values[l][k];
+    for(int i = 0; i < m.row; ++i) {
+        for (int j = 0; j < right.col; ++j) {
+            for (int k = 0; k < m.col; ++k) {
+                m.values[i][j] += values[i][k] * right.values[k][j];
             }
         }
     }

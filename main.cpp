@@ -5,11 +5,11 @@ using namespace std;
 
 int main() {
 
-    cout << "Assignment 1 Start";
+    cout << "Assignment 1 Start" << endl;
 
     pagerank p;
     p.print_results();
 
-    cout << "\nAssignment 1 End" << endl;
+    cout << endl << "Assignment 1 End" << endl;
     return 0;
 }
